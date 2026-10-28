@@ -199,12 +199,16 @@ export function usePlannedGrid({
       previous = cells;
     let dragging = false,
       lastKey = key;
+    // A number left selected inside the cell input would otherwise start the
+    // browser's native text drag, which cancels the pointer gesture.
+    const blockTextDrag = (drag: DragEvent) => drag.preventDefault();
     const move = (pointer: PointerEvent) => {
       if (!dragging && Math.hypot(pointer.clientX - x, pointer.clientY - y) < 5)
         return;
       if (!dragging) {
         dragging = true;
         document.body.classList.add("plan-dragging");
+        window.getSelection()?.removeAllRanges();
         if (
           document.activeElement instanceof HTMLInputElement &&
           planTableRef.current?.contains(document.activeElement)
@@ -233,6 +237,7 @@ export function usePlannedGrid({
       window.removeEventListener("pointermove", move);
       window.removeEventListener("pointerup", stop);
       window.removeEventListener("pointercancel", stop);
+      window.removeEventListener("dragstart", blockTextDrag, true);
       document.body.classList.remove("plan-dragging");
       const selected = dragging
         ? mergePlanSelection(
@@ -259,6 +264,7 @@ export function usePlannedGrid({
     window.addEventListener("pointermove", move);
     window.addEventListener("pointerup", stop, { once: true });
     window.addEventListener("pointercancel", stop, { once: true });
+    window.addEventListener("dragstart", blockTextDrag, true);
     if (additive) event.preventDefault();
   }
   async function fillSelectedPlanCells(value: number) {
