@@ -78,8 +78,10 @@ try {
   });
   const actor = await store.findUser({ id: "root-admin" });
   const read = async () => (await store.read()).data;
-  const apply = (changes) =>
-    store.mutate(actor, (d, u) => applyChanges(d, u, changes));
+  const apply = async (changes) => {
+    if (changes.length)
+      await store.mutate(actor, (d, u) => applyChanges(d, u, changes));
+  };
 
   // ---------------------------------------------------------------- Organisation
   const TOP = "AA Mühendislik Liderliği";
@@ -280,7 +282,9 @@ try {
       version: 1,
       revision: 1,
     });
-  account("genel.mudur", leaders[TOP], "manager", Object.keys(leaders));
+  // The catalog may no longer contain every leadership named here.
+  if (leaders[TOP])
+    account("genel.mudur", leaders[TOP], "manager", Object.keys(leaders));
   const slug = {
     "AA Sistem Mühendisliği Liderliği": "lider.sistem",
     "AA Yapısal Tasarım Liderliği": "lider.yapisal",
@@ -290,7 +294,7 @@ try {
     "AA Mühendislik Proje Yönetimi Takımı": "lider.projeyonetimi",
   };
   for (const [leader, username] of Object.entries(slug))
-    account(username, leaders[leader], "manager", [leader]);
+    if (leaders[leader]) account(username, leaders[leader], "manager", [leader]);
   const byName = (name) => workTeams.find((t) => t.name === name);
   const poTeams = [
     ["po.govde", "AA 6x6 / 8x8 Gövde Geliştirme Takımı"],

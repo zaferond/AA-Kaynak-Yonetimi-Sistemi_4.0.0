@@ -215,10 +215,8 @@ export default function PlannedAllocationTable(
         "matrix planning-grid allocation-grid" +
         (view === "project" ? " project-team-view" : "")
       }
-      style={{
-        width: labelWidth + months.length * monthWidth,
-        minWidth: "100%",
-      }}
+      // No 100% stretch: short periods would widen the Takım / Proje column.
+      style={{ width: labelWidth + months.length * monthWidth }}
     >
       <PlannedTableHeaders
         months={months}

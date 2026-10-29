@@ -290,21 +290,9 @@ export default function MilestoneDateEditor({
                   )}
                   {notes.map((note, noteIndex) => (
                     <div className="milestone-note-row" key={noteIndex}>
-                      <label className="milestone-note-input">
-                        <span className="milestone-note-number">
-                          {index + 1}.{noteIndex + 1} Açıklama
-                        </span>
-                        <textarea
-                          rows={3}
-                          value={note.text}
-                          placeholder="Açıklama yazın"
-                          onChange={(event) =>
-                            updateNote(index, noteIndex, {
-                              text: event.target.value,
-                            })
-                          }
-                        />
-                      </label>
+                      <span className="milestone-note-number">
+                        {index + 1}.{noteIndex + 1} Açıklama
+                      </span>
                       <div className="milestone-note-dates">
                         <label>
                           Başlangıç
@@ -340,32 +328,45 @@ export default function MilestoneDateEditor({
                             }
                           />
                         </label>
-                        <div className="milestone-note-flags">
-                          <label className="milestone-note-report">
-                            <input
-                              type="checkbox"
-                              checked={note.includeInReport}
-                              onChange={(event) =>
-                                updateNote(index, noteIndex, {
-                                  includeInReport: event.target.checked,
-                                })
-                              }
-                            />
-                            Kritik Konulara Ekle
-                          </label>
-                          <label className="milestone-note-complete">
-                            <input
-                              type="checkbox"
-                              checked={!!note.completed}
-                              onChange={(event) =>
-                                updateNote(index, noteIndex, {
-                                  completed: event.target.checked,
-                                })
-                              }
-                            />
-                            Tamamlandı
-                          </label>
-                        </div>
+                      </div>
+                      <label className="milestone-note-input">
+                        <textarea
+                          rows={3}
+                          value={note.text}
+                          placeholder="Açıklama yazın"
+                          aria-label={`${index + 1}.${noteIndex + 1} açıklama`}
+                          onChange={(event) =>
+                            updateNote(index, noteIndex, {
+                              text: event.target.value,
+                            })
+                          }
+                        />
+                      </label>
+                      <div className="milestone-note-flags">
+                        <label className="milestone-note-report">
+                          <input
+                            type="checkbox"
+                            checked={note.includeInReport}
+                            onChange={(event) =>
+                              updateNote(index, noteIndex, {
+                                includeInReport: event.target.checked,
+                              })
+                            }
+                          />
+                          Kritik Konulara Ekle
+                        </label>
+                        <label className="milestone-note-complete">
+                          <input
+                            type="checkbox"
+                            checked={!!note.completed}
+                            onChange={(event) =>
+                              updateNote(index, noteIndex, {
+                                completed: event.target.checked,
+                              })
+                            }
+                          />
+                          Tamamlandı
+                        </label>
                       </div>
                       <button
                         type="button"

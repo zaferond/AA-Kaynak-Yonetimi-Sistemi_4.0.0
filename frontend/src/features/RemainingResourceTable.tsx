@@ -116,7 +116,8 @@ export default function RemainingResourceTable({
           className={
             "remaining-report " + (teamReport ? "team-report" : "leader-report")
           }
-          style={{ width: 350 + months.length * monthWidth, minWidth: "100%" }}
+          // No 100% stretch: short periods would widen the unit columns.
+          style={{ width: 350 + months.length * monthWidth }}
         >
           <colgroup>
             <col style={{ width: 110 }} />

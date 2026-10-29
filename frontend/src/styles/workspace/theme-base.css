@@ -469,7 +469,7 @@ html[data-theme="technical"]
   border-left-color: var(--brand-mid);
 }
 html[data-theme="technical"]
-  :is(.milestone-range-number, .milestone-note-input .milestone-note-number) {
+  :is(.milestone-range-number, .milestone-note-row .milestone-note-number) {
   background: var(--brand-surface);
   color: var(--brand-primary);
   border-color: var(--brand-border);
@@ -1285,7 +1285,7 @@ html[data-theme="technical"] .milestone-bar-options .sample.outline {
 }
 html[data-theme="technical"]
   .timeline-editor-form
-  .milestone-note-dates
+  .milestone-note-row
   .milestone-note-flags
   .milestone-note-complete {
   color: #277456;

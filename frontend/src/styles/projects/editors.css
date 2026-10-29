@@ -269,12 +269,23 @@
   border-radius: 6px;
   background: #fff;
 }
-.milestone-note-row > .milestone-note-input {
+/* Number, dates, description, then the flags; remove sits beside the number. */
+.milestone-note-row > .milestone-note-number {
   grid-column: 1;
   grid-row: 1;
+}
+.milestone-note-row > .milestone-note-input {
+  grid-column: 1;
+  grid-row: 3;
   gap: 5px;
 }
-.milestone-note-input .milestone-note-number {
+.milestone-note-row > .milestone-note-flags {
+  grid-column: 1;
+  grid-row: 4;
+  min-height: 0;
+}
+.milestone-note-number {
+  justify-self: start;
   align-self: flex-start;
   padding: 2px 6px;
   border: 1px solid #c9dbe9;
@@ -291,32 +302,25 @@
   line-height: 1.5;
 }
 .milestone-note-dates {
-  grid-column: 1 / 3;
+  grid-column: 1;
   grid-row: 2;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: end;
   gap: 8px;
 }
 .milestone-note-dates label {
   font-size: var(--fs-xs);
 }
-.milestone-note-dates .milestone-note-report {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 5px;
-  align-self: end;
-  min-height: 36px;
-  white-space: nowrap;
-}
 .milestone-note-flags {
-  display: grid;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   align-self: end;
-  gap: 4px;
-  padding-bottom: 2px;
+  gap: 4px 14px;
+  min-height: 36px;
 }
-.milestone-note-dates .milestone-note-flags label {
+.milestone-note-row .milestone-note-flags label {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -325,7 +329,7 @@
   min-height: 16px;
   white-space: nowrap;
 }
-.milestone-note-dates .milestone-note-flags .milestone-note-complete {
+.milestone-note-row .milestone-note-flags .milestone-note-complete {
   color: #277456;
 }
 .timeline-editor-form .milestone-note-row input[type="checkbox"] {
@@ -335,9 +339,11 @@
   min-height: 14px;
   padding: 0;
 }
+/* Spans the number and date rows so the number row stays as short as its badge. */
 .milestone-note-remove {
   grid-column: 2;
-  grid-row: 1;
+  grid-row: 1 / 3;
+  align-self: start;
   display: grid;
   place-items: center;
   width: 25px;

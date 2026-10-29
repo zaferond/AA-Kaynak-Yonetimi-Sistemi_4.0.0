@@ -140,7 +140,7 @@ export default function Portal() {
     project: Project;
     month: string;
   } | null>(null);
-  const projectLabelWidth = 300;
+  const projectLabelWidth = 230;
   const planningLabelWidth = 220;
   const [browserFullScreen, setBrowserFullScreen] = useState(
     !!document.fullscreenElement,
@@ -333,6 +333,8 @@ export default function Portal() {
   );
   const monthWidth =
     density === "overview" ? 24 : density === "compact" ? 68 : 150;
+  const projectMonthWidth =
+    density === "overview" ? 24 : density === "compact" ? 68 : 110;
   const planMonthWidth =
     density === "overview" ? 23 : density === "compact" ? 60 : 120;
   const reportMonthWidth =
@@ -712,7 +714,9 @@ export default function Portal() {
               ? planMonthWidth
               : tab === "overview"
                 ? reportMonthWidth
-                : monthWidth) + "px",
+                : tab === "projects"
+                  ? projectMonthWidth
+                  : monthWidth) + "px",
           "--label-width":
             (tab === "projects"
               ? projectLabelWidth
@@ -951,7 +955,7 @@ export default function Portal() {
                       onCodesChange={setShowProjectCodes}
                       todayDate={todayDate}
                       labelWidth={projectLabelWidth}
-                      monthWidth={monthWidth}
+                      monthWidth={projectMonthWidth}
                       density={density}
                       expandAllDetails={showProjectDetails}
                       onDetailsChange={setShowProjectDetails}

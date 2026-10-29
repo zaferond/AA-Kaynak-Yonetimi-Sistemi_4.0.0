@@ -51,10 +51,8 @@ export default function PlannedCapacitySummary(
           todayColumn
           todayMonthsKey={months.join("|")}
           className="matrix planning-grid allocation-grid"
-          style={{
-            width: labelWidth + months.length * monthWidth,
-            minWidth: "100%",
-          }}
+          // No 100% stretch: short periods would widen the label column.
+          style={{ width: labelWidth + months.length * monthWidth }}
         >
           <PlannedTableHeaders
             months={months}

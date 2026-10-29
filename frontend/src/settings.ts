@@ -17,6 +17,6 @@ export const TAB_LABELS = {
 };
 export const DEFAULT_FILTERS = {
   start: currentPlanningMonth().slice(0, 4) + "-01",
-  count: 12,
+  count: 24,
 };
 export const ACTUAL_DEFAULT_PERIOD_MONTHS = 24;

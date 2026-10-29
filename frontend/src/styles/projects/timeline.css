@@ -263,7 +263,7 @@
   white-space: normal;
   overflow-wrap: anywhere;
   color: #76899d;
-  font-size: var(--fs-xs);
+  font-size: 11px;
   line-height: 1.2;
 }
 .app .projectmatrix .milestone-actions {
@@ -863,4 +863,38 @@
 }
 .app [data-slot="table-container"]:has(> .projectmatrix.project-codes-visible) {
   scroll-padding-inline-start: calc(var(--label-width, 300px) + 110px);
+}
+
+/* Compact text inside detail bars and milestone labels. The extra
+   .tab-projects class outranks the gantt-track.css rules whatever the order. */
+html[data-theme]
+  .app.tab-projects
+  .projectmatrix
+  .milestone-track
+  :is(
+    .gantt-group-heading,
+    .gantt-note-list li,
+    .gantt-note-text,
+    .gantt-note-dates,
+    .weekly-note-text,
+    .weekly-note-box small,
+    .milestone-point-label strong,
+    .milestone-point-label time
+  ) {
+  font-size: 9.5px;
+  line-height: 1.3;
+}
+/* Long notes stop at three lines; the full text stays in the tooltip and
+   the editor. Words wrap whole now that boxes have a minimum width. */
+html[data-theme]
+  .app.tab-projects
+  .projectmatrix
+  .milestone-track
+  :is(.gantt-note-text, .weekly-note-text) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  overflow-wrap: break-word;
 }

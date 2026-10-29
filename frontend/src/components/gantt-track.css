@@ -144,7 +144,7 @@ html[data-theme] .app .projectmatrix .milestone-point-label {
   width: var(--point-label-width);
   display: block;
   color: #365b79;
-  background: #ffffffed;
+  background: transparent;
   padding: 3px 5px;
   border-radius: 4px;
   text-align: left;

@@ -27,6 +27,14 @@ import "./components/gantt-track.css";
 
 import { dateLabel, barDateLabel } from "./features/timeline-labels";
 
+/** Short ranges still draw wide enough for their text to wrap by word; the
+ * stacking layout below uses the same span so widened boxes never overlap. */
+const MIN_NOTE_WIDTH = 96;
+const minNoteStyle = (left: number) => ({
+  left: `min(${left}%, calc(100% - ${MIN_NOTE_WIDTH}px))`,
+  minWidth: MIN_NOTE_WIDTH,
+});
+
 export default function MilestoneTrack({
   project: currentProject,
   projectRevision,
@@ -238,6 +246,12 @@ export default function MilestoneTrack({
     const available = side === "left" ? center - 22 : trackWidth - center - 22;
     return { center, side, width: Math.min(240, Math.max(0, available)) };
   };
+  // Pixel span of a note box as drawn with minNoteStyle.
+  const noteSpan = (left: number, right: number) => {
+    const width = Math.max(MIN_NOTE_WIDTH, right - left);
+    const start = Math.max(0, Math.min(left, trackWidth - MIN_NOTE_WIDTH));
+    return { left: start, right: start + width };
+  };
   const items: TimelineItem[] = bars.flatMap((bar, index) => {
     if (grouped.has(index)) return [];
     const id = "range:" + index;
@@ -260,8 +274,7 @@ export default function MilestoneTrack({
       : [
           {
             id,
-            left,
-            right: left + Math.max(6, (bar.width * trackWidth) / 100),
+            ...noteSpan(left, left + (bar.width * trackWidth) / 100),
             minimumHeight: 24,
           },
         ];
@@ -270,8 +283,10 @@ export default function MilestoneTrack({
     const note = entries[0];
     items.push({
       id: `note:${note.rangeIndex}.${note.noteIndex}`,
-      left: (note.left * trackWidth) / 100 + 2,
-      right: ((note.left + note.width) * trackWidth) / 100 - 2,
+      ...noteSpan(
+        (note.left * trackWidth) / 100 + 2,
+        ((note.left + note.width) * trackWidth) / 100 - 2,
+      ),
       minimumHeight: 39 * entries.length + (entries.length > 1 ? 26 : 0),
     });
   }
@@ -351,7 +366,7 @@ export default function MilestoneTrack({
           "--gantt-color": barColor.ink,
           "--gantt-soft": barColor.bg,
           "--gantt-ink": barColor.ink,
-          left: displayed.left + "%",
+          ...minNoteStyle(displayed.left),
           top: layout.centers["range:" + index],
           width: displayed.width + "%",
         } as CSSProperties;
@@ -594,7 +609,7 @@ export default function MilestoneTrack({
             }
             style={
               {
-                left: note.left + "%",
+                ...minNoteStyle(note.left),
                 width: note.width + "%",
                 top: layout.centers[
                   `note:${note.rangeIndex}.${note.noteIndex}`
